@@ -1,6 +1,7 @@
 {
   "date": "2026-11-05",
   "authority": "Worker-reported checks only; no independent behavioral certification.",
+  "revisionNote": "All results here are from the previous round and predate the overlay ground and fault-priority revision. No check was re-run for that revision; see validation.md.",
   "cleanInstall": {
     "passed": true,
     "packagesInstalled": 19

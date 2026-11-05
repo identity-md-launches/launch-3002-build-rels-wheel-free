@@ -1224,6 +1224,16 @@ input[type="range"] {
 .mascot-slot .pose-label {
   bottom: 10px;
 }
+.overlay-ground {
+  position: absolute;
+  inset: auto 0 0;
+  width: 100%;
+  height: 30px;
+}
+/* The ticks share this band with the label, and a faulted wheel is not moving. */
+[data-pose="fault"] .overlay-ground {
+  display: none;
+}
 .overlay-hud {
   padding: 12px 14px;
   background: var(--hud-bg);

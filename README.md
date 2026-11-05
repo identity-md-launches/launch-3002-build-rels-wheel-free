@@ -36,7 +36,7 @@ These are browser captures of the actual production export. Displayed wheel valu
 
 ![Transparent OBS overlay at 1920 × 1080](artifacts/screenshots/overlay-1080.png)
 
-The overlay image has an alpha background. Its empty area is deliberately transparent.
+The overlay image has an alpha background. Its empty area is deliberately transparent. This capture predates the overlay’s ground layers, added in the revision described under Checks, and has not been retaken.
 
 ## Add Rels to OBS
 
@@ -82,7 +82,7 @@ All decimal quantities are normalized to `BigInt`, including the documented safe
 
 One shared poller serves the whole page, including all three mascots, HUDs, builder preview, and game. It requests every 3 seconds, returns the last ETag unchanged in `If-None-Match`, and reuses a 304 response’s cached snapshot. Requests do not overlap. HTTP 429/503 waits the full `Retry-After` and then exponential backoff; other failures also back off, capped at 60 seconds. Hidden tabs stop requests and animation; returning to the tab preserves any remaining retry delay.
 
-Loading or missing readings show **—**, never an invented zero. An unavailable response/builder, failed request, malformed payload, or unsupported schema shows **Signal lost** and retains the last good values in muted grey. A stale measurement keeps its distinct stale label and searching pose. A valid explicit counter fault uses the helmet-scratch pose even if its builder is unavailable; the HUD still says Signal lost.
+Loading or missing readings show **—**, never an invented zero. An unavailable response/builder, failed request, malformed payload, or unsupported schema shows **Signal lost** and retains the last good values in muted grey. A stale measurement keeps its distinct stale label and searching pose. Stale and Signal lost outrank every core status, including a counter fault: the helmet-scratch pose and “wheel hiccup” label appear only for a current, online reading.
 
 Resting is normal. After more than 20 seconds of observed IDLE, Rels sits and nods off, Kuni curls up, and sleepy letters appear. “Last run” is the last ACTIVE state observed **during this session**, or **—** if none has been seen. Projected blocks are optimistic: Ethereum settlement and SQK checkpointing are separate stages. The footer and share metadata explicitly identify this as an independent community project.
 
@@ -107,5 +107,7 @@ npm run test:browser
 The browser script serves the actual `dist/` beneath `/preview/` in one bounded foreground process. Its deterministic fixtures live only in the test script, to exercise running, sleeping, faults, availability, block bursts, game outcomes, retries, and conditional requests. It also tries the real API separately. The optional `RELS_TEST_TOOLS`, `RELS_CHROMIUM`, and `RELS_WEBKIT` test arguments are environment variables for isolated test tooling; the application reads no environment configuration.
 
 Worker results on 2026-11-05: production build and typecheck passed; **14 unit tests passed**; **18 browser-check groups passed**, including the real-response bridge, with the two environment limitations below; WCAG-tagged axe checks passed. The pinned taste probe passed **15 of 16** checks. Its single repetition flag is the required “work left to next block” label appearing in both the live dashboard and the builder’s live HUD preview. WebKit could not launch with this host’s available native libraries; Safari, physical OBS, hardware frame rate, screen-reader sessions, and browser-native 200% zoom remain unverified. Direct API transport in the sandbox browser failed, while actual API GET and CORS preflight succeeded via curl. These are worker-reported checks, not independent certification.
+
+**Those results predate the latest revision and were not repeated for it.** The revision adds the overlay’s ground layers and makes stale/lost outrank a counter fault. No shell or browser could start in that session, so the build, typecheck, unit tests, browser checks, and taste probe did not run, and the new `tests/scene.test.ts` and updated `tests/browser.mjs` steps have never been executed. The same changes were applied to `dist/assets/` by hand rather than by `npm run build`, so the asset filenames no longer reflect their content hashes. Run the commands above to confirm the revision and regenerate the export. See [validation](artifacts/validation.md).
 
 See [full validation](artifacts/validation.md) for coverage and fixes, and [DESIGN.md](DESIGN.md) for implemented tokens and components. Design guidance attribution is retained in [third-party notices](artifacts/THIRD_PARTY_NOTICES.txt).

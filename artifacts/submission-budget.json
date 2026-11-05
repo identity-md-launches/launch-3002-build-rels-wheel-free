@@ -1,6 +1,7 @@
 {
   "date": "2026-11-05",
   "scope": "Added/modified submission files, excluding ignored generated tooling and provided inputs; byte total includes this report.",
+  "revisionNote": "Measured in the previous round. Files changed by the later revision, including the two dist/assets files, no longer match these sizes and hashes; tests/scene.test.ts is not listed. The revision adds only a few kilobytes of text.",
   "limitBytes": 8388608,
   "totalBytes": 836735,
   "remainingBytes": 7551873,

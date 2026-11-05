@@ -92,10 +92,27 @@ export function dojoSVG(): string {
   <g fill="#9eaf80" opacity=".45"><rect x="105" y="90" width="3" height="3"/><rect x="349" y="56" width="3" height="3"/><rect x="652" y="92" width="3" height="3"/><rect x="415" y="155" width="2" height="2"/><rect x="220" y="126" width="2" height="2"/></g>
   </svg>`;
 }
+const GROUND_WRAP = 90;
+// Ground ticks only, no fill, so the OBS canvas stays transparent. Each layer repeats at the
+// distance it travels before the offset wraps (near 90, far 30), which keeps the loop seamless.
+function groundTicks(y: number, period: number, length: number): string {
+  let path = "";
+  for (let x = 4; x < 340 + GROUND_WRAP; x += period)
+    path += `M${x} ${y}h${length}`;
+  return path;
+}
+function overlayGroundSVG(): string {
+  const far = groundTicks(7, GROUND_WRAP / 3, 7),
+    near = groundTicks(20, GROUND_WRAP, 34);
+  return `<svg class="overlay-ground" viewBox="0 0 340 30" aria-hidden="true" fill="none" stroke-linecap="round">
+    <g class="ground-far"><path d="${far}" stroke="#101e18" stroke-width="4" opacity=".45"/><path d="${far}" stroke="#d9d3ad" stroke-width="2" opacity=".75"/></g>
+    <g class="ground-near"><path d="${near}" stroke="#101e18" stroke-width="6" opacity=".55"/><path d="${near}" stroke="#edc56c" stroke-width="3"/></g>
+  </svg>`;
+}
 export function overlayMarkup(): string {
   return `<div class="overlay-widget" data-pos="bottom-right" data-theme="dark">
     <div class="block-banner" role="status"><span class="banner-main"></span><span class="banner-name"></span></div>
-    <div class="mascot-slot">${mascotSVG()}<span class="pose-label"></span></div>
+    <div class="mascot-slot">${overlayGroundSVG()}${mascotSVG()}<span class="pose-label"></span></div>
     <div class="overlay-hud"><div class="overlay-values"><span><b data-live="rpm">—</b> RPM</span><span><b data-live="speed">—</b> m/min</span><span><b data-live="distance">—</b> m today</span></div><div class="overlay-block"><span data-live="block">Waiting for wheel</span><span data-live="percent">—</span></div><div class="progress-track"><div class="progress-fill"></div></div><p class="overlay-work"><span data-live="work">—</span> work left to next block</p><p class="overlay-settled" data-live="settled">Settlement unknown</p><p class="overlay-status" data-live="short-status">Connecting to wheel…</p></div>
   </div>`;
 }
@@ -120,7 +137,9 @@ export class RelsScene {
   get celebrating(): boolean {
     return this.currentBlock !== null || this.celebrationQueue.length > 0;
   }
-  constructor(readonly element: HTMLElement) {
+  readonly element: HTMLElement;
+  constructor(element: HTMLElement) {
+    this.element = element;
     this.art = element.querySelector(".rels-art")!;
     for (const name of [
       "far-leg",
@@ -150,10 +169,10 @@ export class RelsScene {
     const m = signal.latestMeasurement ?? signal.data?.measurement;
     this.basePose = signal.loading
       ? "waiting"
-      : m?.coreStatus === "COUNTER_FAULT" && signal.latestMeasurement
-        ? "fault"
-        : signal.lost || m?.freshness === "stale"
-          ? "search"
+      : signal.lost || m?.freshness === "stale"
+        ? "search"
+        : m?.coreStatus === "COUNTER_FAULT"
+          ? "fault"
           : m?.coreStatus === "ACTIVE"
             ? "run"
             : signal.idleSince !== null && now - signal.idleSince > 20_000
@@ -392,7 +411,8 @@ export class RelsScene {
     const blink = this.pose === "sleep" || (!reduced && t % 5 > 4.8);
     this.art.classList.toggle("kuni-blink", blink);
     if (!reduced && this.pose === "run") {
-      this.groundOffset = (this.groundOffset + dt * this.speed * 0.0015) % 90;
+      this.groundOffset =
+        (this.groundOffset + dt * this.speed * 0.0015) % GROUND_WRAP;
       this.parts["ground-near"]?.setAttribute(
         "transform",
         `translate(${-this.groundOffset} 0)`,

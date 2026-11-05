@@ -2,11 +2,40 @@
 
 Date: 2026-11-05. These are checks performed by the worker, not independent certification. The assignment’s verifier checks paths and bytes; it does not establish runtime behavior.
 
+## Revision: reviewer findings (not executed)
+
+**Nothing in this revision has been run.** Every result below this section belongs to the previous round and describes the code before these changes.
+
+In this session the Bash tool failed on every call with `Sandbox is required but failed to initialize: Failed to create bridge sockets after 5 attempts. Restart to retry.` The browser tool failed to launch with Chromium’s `Socket path too long` for a socket under the session temp directory, which sits beneath this long work path. The sandbox error is probably the same limit, though only the browser message names it. Only file read, search, and edit tools worked.
+
+| Check | Status for this revision |
+| --- | --- |
+| `npm run build` | Not run. `dist/` was patched by hand. |
+| `npm run typecheck` | Not run. |
+| `npm test`, including new `tests/scene.test.ts` | Not run. These tests have never executed and may need correction. |
+| `npm run test:browser`, including new overlay ground and fault-priority steps | Not run. |
+| Taste probe | Not run. The 15/16 result below predates this revision. |
+| Screenshots | Not retaken. `screenshots/overlay-1080.png` shows no ground. |
+| `check-results.json`, `submission-budget.json` | Previous round’s values. Bundle and CSS sizes and hashes no longer match. |
+
+| Severity | Finding and how it was confirmed | Change |
+| --- | --- | --- |
+| High / fidelity | `overlayMarkup()` contained no ground elements, so `RelsScene`’s `ground-near`/`ground-far` lookups returned null in the overlay and builder preview. Confirmed by reading the source; the reviewer’s reproduction was not re-run. | `src/scene.ts`: `overlayGroundSVG` adds two stroke-only layers, each repeating at the distance it travels before the 90-unit wrap. `src/style.css`: `.overlay-ground`, hidden in the fault pose where the label sits. |
+| Medium / bug | `setSignal` tested `COUNTER_FAULT` before stale and lost, while `paintSignal` already reported stale and lost first. Confirmed by reading the source; not re-run. | `src/scene.ts`: stale and lost resolve to `search` first. |
+
+Supporting change: `RelsScene`’s constructor no longer uses a parameter property, which `--experimental-strip-types` rejects and which would stop `tests/scene.test.ts` from importing it. Its behavior is intended to be unchanged.
+
+`dist/assets/index-BwGlzLfu.js` and `dist/assets/index-M7PaKuyV.css` received the equivalent edits by hand, because the publisher serves the committed export and does not rebuild. The JavaScript adds two functions, `relsGroundTicks` and `relsOverlayGround`, and reorders the pose condition. A real build will replace these files with new hashed names and should behave the same; that has not been confirmed.
+
+Observed and left unchanged, as outside these findings: the hero’s `dojoSVG` ground ticks are not periodic at 90 units, so by reading the code they appear to jump each time the offset wraps. At 90 RPM that is about every 0.7 seconds of steady running. The overlay layers avoid this by construction.
+
+To finish verification on a machine with a working shell: `npm ci && npm run typecheck && npm test && npm run build && npm run test:browser`, then rerun the taste probe, retake `overlay-1080.png`, and refresh both JSON records.
+
 ## Scope and assumptions
 
 Reviewed the production export of `/` and the actual static `/overlay/` route, served under `/preview/` to exercise subpath URLs. The site is vanilla TypeScript + Vite, with locally drawn inline SVG. Source, lockfile, export, share image, screenshots, and design documentation are delivered. No hosting or publication was performed.
 
-Consequential choices: dark forest/dojo palette with gold; default bottom-right position, HUD enabled, sound disabled; 40-character optional names; half-open game windows at 10/30/60 minutes; detection-time scoring; first three block celebrations from a burst; viewport-fit scaling when necessary at 720p. A valid explicit counter fault takes the scratch pose even if the builder is unavailable, while its HUD still reports Signal lost. No data, history, payouts, peers, or leaderboard are synthesized in the application.
+Consequential choices: dark forest/dojo palette with gold; default bottom-right position, HUD enabled, sound disabled; 40-character optional names; half-open game windows at 10/30/60 minutes; detection-time scoring; first three block celebrations from a burst; viewport-fit scaling when necessary at 720p. A counter fault takes the scratch pose only for a current, online reading; stale and Signal lost outrank it (changed in the revision below). No data, history, payouts, peers, or leaderboard are synthesized in the application.
 
 ## Build, tests, and live service
 

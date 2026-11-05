@@ -500,13 +500,33 @@ try {
       await page.clock.runFor(3100);
       assert.equal(
         await page.locator("#hero-scene").getAttribute("data-pose"),
+        "search",
+      );
+      assert.equal(
+        await page.locator("#hero-scene .question-bubble").isVisible(),
+        true,
+      );
+      state.builder.status = "available";
+      await page.clock.runFor(3100);
+      assert.equal(
+        await page.locator("#hero-scene").getAttribute("data-pose"),
         "fault",
       );
       assert.equal(
         await page.locator("#hero-scene .pose-label").textContent(),
         "wheel hiccup",
       );
-      state.builder.status = "available";
+      state.measurement.freshness = "stale";
+      await page.clock.runFor(3100);
+      assert.equal(
+        await page.locator("#hero-scene").getAttribute("data-pose"),
+        "search",
+      );
+      assert.equal(
+        await page.locator("#hero-scene .pose-label").textContent(),
+        "",
+      );
+      state.measurement.freshness = "online";
       state.measurement.coreStatus = "IDLE";
       await page.clock.runFor(3100);
       assert.equal(
@@ -725,6 +745,39 @@ try {
           }
         }
       }
+      await overlay.setViewportSize({ width: 1920, height: 1080 });
+      overlayState = fixture();
+      overlayState.measurement.coreStatus = "ACTIVE";
+      overlayState.measurement.rpmMilli = 90000;
+      await overlay.goto(`${url}overlay/?hud=1&scale=1&theme=light`);
+      await overlay.waitForFunction(
+        () => document.querySelector(".overlay-widget")?.dataset.pose === "run",
+      );
+      const groundShift = () =>
+        overlay.evaluate(() =>
+          [".ground-near", ".ground-far"].map((selector) => {
+            const match = document
+              .querySelector(`.overlay-widget ${selector}`)
+              .getAttribute("transform")
+              ?.match(/translate\((-?[\d.]+) /);
+            return match ? Number(match[1]) : 0;
+          }),
+        );
+      await overlay.clock.runFor(2000);
+      const [near, far] = await groundShift();
+      assert.ok(near < 0 && far < 0, JSON.stringify({ near, far }));
+      assert.ok(
+        Math.abs(near / far - 3) < 0.01,
+        `ground layers must move at different speeds: ${near} / ${far}`,
+      );
+      assert.equal(
+        await overlay.evaluate(
+          () =>
+            getComputedStyle(document.querySelector(".overlay-ground"))
+              .backgroundColor,
+        ),
+        "rgba(0, 0, 0, 0)",
+      );
       overlayState = { ...fixture(), builder: { status: "unavailable" } };
       await overlay.clock.runFor(3100);
       await overlay.waitForFunction(() =>
