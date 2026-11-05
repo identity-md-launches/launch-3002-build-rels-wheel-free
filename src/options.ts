@@ -42,7 +42,7 @@ export function overlayURL(
   locationURL: string,
 ): string {
   const base = new URL("./", locationURL);
-  const url = new URL("overlay/", base);
+  const url = new URL("overlay/index.html", base);
   url.search = new URLSearchParams({
     pos: options.pos,
     scale: String(options.scale),

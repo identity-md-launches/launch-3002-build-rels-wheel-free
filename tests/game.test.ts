@@ -107,6 +107,6 @@ test("bad overlay values default safely and streamer names are bounded plain tex
       "https://example.com/ipfs/real-path/index.html#builder",
     ),
   );
-  assert.equal(url.pathname, "/ipfs/real-path/overlay/");
+  assert.equal(url.pathname, "/ipfs/real-path/overlay/index.html");
   assert.equal(url.searchParams.get("name"), "<script>& friend");
 });

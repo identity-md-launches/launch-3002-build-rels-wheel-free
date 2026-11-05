@@ -2,7 +2,54 @@
 
 Date: 2026-11-05. These are checks performed by the worker, not independent certification. The assignment’s verifier checks paths and bytes; it does not establish runtime behavior.
 
-## Revision: reviewer findings (not executed)
+## Current revision: explicit overlay entry point (checked)
+
+Scope: fix only the IPFS overlay URL. The shared helper is in `src/options.ts:45` in this checkout, imported by `src/main.ts:6`. It now constructs `new URL("overlay/index.html", base)`. Query construction is unchanged. The builder field and open link share that value (`src/main.ts:261–263`), and the copy button copies it unchanged (`src/main.ts:289`). The static fallback link and OBS step (`src/main.ts:30`), README, related route documentation, and existing test URLs now name the explicit file. The router already accepts it and was left intact.
+
+Styles, tokens, data, scene/animation code, mini-game code, assets, dependency manifests/lockfile, and build configuration are unchanged from the input. `dist/` was regenerated from source with the existing Vite configuration; obsolete hashed bundles were replaced by the build. No deployment was performed.
+
+### Actual verification
+
+| Check | Result for this revision |
+| --- | --- |
+| `npm ci --prefix test/scratch/tools --cache test/scratch/npm-cache --ignore-scripts --no-audit --no-fund` using unchanged copies of the root manifests | Passed; 19 packages. All installed tooling and caches stay in disposable scratch. |
+| `npm run typecheck` with the installed tool binaries on PATH | Passed, exit 0. |
+| `npm test` | Passed, exit 0: 19 tests, zero failures, including the prior scene revision and updated explicit-file URL assertion. |
+| `npm run build` with the installed tool binaries on PATH | Passed, exit 0: Vite 7.3.7, eight modules, followed by `scripts/export.mjs`. Both HTML entrypoints and local relative assets exist. |
+| `npm run test:browser` with `RELS_TEST_TOOLS` and `RELS_CHROMIUM` pointing to disposable tooling and the installed Chromium headless shell | Exit 0; 18 groups passed, two environment-limited groups. Builder/keyboard/clipboard, game wins/losses/streaks, poller/ETag/backoff, scene states/ground layers, reduced motion, WCAG-tagged axe scans, 320/390/768/1440px reflow, and all 16 overlay corner/scale/resolution combinations passed. No script errors or failed local resources in the checked fixture flow. |
+| `node --experimental-strip-types test/scratch/overlay-query-check.mjs` | Passed: 1,920 combinations of five landing bases, four corners, four scales, HUD/sound/theme toggles, and empty/special/Unicode names. Each result differs from the prior helper only by appending `index.html`; origin and raw query bytes match exactly. All six options round-trip. |
+| `node test/scratch/overlay-gateway-check.mjs` | Passed: root directory/index and IPFS-style directory/index entrypoints. Test server deliberately returns a listing for overlay directories. Default/custom URL, actual clipboard contents, Open overlay popup, explicit file route, transparent background, ground layer, and denied-clipboard full-selection fallback passed. Zero overlay-directory requests, script errors, or failed local resources. Deterministic API fixtures exist only in scratch. |
+| `node .imd/reads/skills/design-critic/scripts/taste.mjs --out test/scratch/taste` with its supported `IMD_PLAYWRIGHT` launcher override | Exit 0; 15/16 checks passed at 320/390/1440px. The probe itself was unchanged. Render/layout/targets/contrast/type/motion/share checks passed. The existing repetition candidate is discussed below. |
+
+Final integrity check (`python3 test/scratch/final-integrity-check.py`) passed: only the assigned URL/setup substitutions differ in application source and existing tests; styles, data, animation/game modules, manifests, lockfile, build/export configuration, original screenshots and ignore rules match the input. Both exports’ relative asset and metadata references resolve locally, no generated tooling is submitted, and the complete delivered project is below 8 MiB. Current byte totals and export hashes are in `submission-budget.json`.
+
+The supplied browser tool failed because its Chrome executable was unavailable. Full Chromium also failed to create its singleton socket. The installed Chromium **headless shell** ran the successful browser and probe checks. WebKit was unavailable, so no Safari result is claimed. Direct browser API transport produced **Signal lost**; the existing test-only curl bridge successfully rendered fresh real API responses. Neither bridge nor fixtures are exported. The real IPFS deployment was not republished or tested; the local gateway regression models its directory-listing behavior.
+
+### Better Interface review of the changed flow
+
+Applied the pinned Better Interface guide during the path/copy correction, preserving the incumbent system. The visual idea remains the night-dojo scene with a samurai responding to the real wheel signal. All six domains were reviewed for the affected builder and overlay flow.
+
+| Domain | Coverage and evidence | Limits |
+| --- | --- | --- |
+| Accessibility — Checked | Native labels/roles and copy status retained; existing keyboard/focus and axe checks passed; full URL selected when clipboard fails; reduced-motion checks passed. | No screen-reader session or physical input-device test. |
+| Layout — Checked | Probe and interaction suite found no horizontal overflow at 320/390/1440; suite also checked 768px. Viewed the 390px first-screen capture: title, product scene and Build your overlay action are visible. Viewed builder captures at 390/1440: explicit-file setup text fits the existing layout. | Native 200% zoom, localization and RTL not checked. |
+| Writing — Checked | Setup, generated/opened/copied URLs and README consistently name `overlay/index.html`; query options and copy/recovery messages retain their meanings. | No unrelated copy edits. |
+| Typography — Checked | Source tokens unchanged; probe measured at most six sizes, three families and two weights. Full URL remains selectable and horizontally scrollable in the existing field. Explicit-file step was readable in both builder captures. | No new font or platform-font comparison. |
+| Colors — Checked | Source palette/themes unchanged; probe reported all measured text at least 4.5:1, or 3:1 for large text. Existing landing and light lost-signal HUD axe scans passed. | Arbitrary streamer-video backgrounds and every manual focus/background pairing are not certified. |
+| UI — Checked | Default/custom builder preview, copy success/fallback, opened overlay, game, scene states, transparent HUD variants and reduced motion passed. Only the destination path and required setup text changed. | No physical OBS, audible speaker test, 10%-speed animation-panel replay or hardware frame-rate measurement. |
+
+### Findings, corrections and recheck
+
+| Severity / source | Finding | Correction and evidence |
+| --- | --- | --- |
+| High / `src/options.ts:45`, `src/main.ts:30` | Generated URL and fallback pointed to an overlay directory, which the reported IPFS gateway lists. Setup/docs recommended that path. | Use `overlay/index.html` everywhere a page URL is generated/linked; preserve the query builder. Rechecked actual clipboard and Open overlay against a server that lists directories, plus 1,920 byte-exact query comparisons. Passed. |
+| Existing probe candidate / `src/main.ts:26`, `src/scene.ts:116` | “work left to next block” appears in both dashboard and live builder HUD preview. Probe repetition check failed. | Retained: both readouts describe the same real data. The brief says “Fix one bug, change nothing else” and requires preserving design/data. No related URL defect remains. |
+
+Captured and inspected `test/scratch/taste/shots/390.png`, `test/scratch/browser-results/overlay-url-builder-390.png`, and `test/scratch/browser-results/overlay-url-builder-1440.png`. These disposable captures are removed before submission; the pre-existing documentation screenshots were restored byte-for-byte. The metadata/share artwork, CSS, source assets and other application modules were preserved. `DESIGN.md` retains the implemented tokens, typography, components and responsive behavior and now documents the canonical file URL.
+
+Complete for the requested URL fix and performed checks, with the browser/network/manual limitations above. These are worker-reported results; earlier sections below and older screenshot notes are historical.
+
+## Historical revision: reviewer findings (not executed at that time)
 
 **Nothing in this revision has been run.** Every result below this section belongs to the previous round and describes the code before these changes.
 
@@ -33,7 +80,7 @@ To finish verification on a machine with a working shell: `npm ci && npm run typ
 
 ## Scope and assumptions
 
-Reviewed the production export of `/` and the actual static `/overlay/` route, served under `/preview/` to exercise subpath URLs. The site is vanilla TypeScript + Vite, with locally drawn inline SVG. Source, lockfile, export, share image, screenshots, and design documentation are delivered. No hosting or publication was performed.
+Reviewed the production export of `/` and the actual static `/overlay/index.html` route, served under `/preview/` to exercise subpath URLs. The site is vanilla TypeScript + Vite, with locally drawn inline SVG. Source, lockfile, export, share image, screenshots, and design documentation are delivered. No hosting or publication was performed.
 
 Consequential choices: dark forest/dojo palette with gold; default bottom-right position, HUD enabled, sound disabled; 40-character optional names; half-open game windows at 10/30/60 minutes; detection-time scoring; first three block celebrations from a burst; viewport-fit scaling when necessary at 720p. A counter fault takes the scratch pose only for a current, online reading; stale and Signal lost outrank it (changed in the revision below). No data, history, payouts, peers, or leaderboard are synthesized in the application.
 

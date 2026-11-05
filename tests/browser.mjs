@@ -293,7 +293,7 @@ try {
         .getByRole("switch", { name: /Block celebration sound/ })
         .check();
       const generated = new URL(await page.locator("#obs-url").inputValue());
-      assert.equal(generated.pathname, "/preview/overlay/");
+      assert.equal(generated.pathname, "/preview/overlay/index.html");
       for (const [k, v] of Object.entries({
         pos: "top-left",
         theme: "light",
@@ -698,7 +698,7 @@ try {
           for (const scale of [0.5, 2]) {
             overlayState = fixture();
             await overlay.goto(
-              `${url}overlay/?pos=${pos}&scale=${scale}&theme=light`,
+              `${url}overlay/index.html?pos=${pos}&scale=${scale}&theme=light`,
             );
             await overlay.waitForFunction(
               () =>
@@ -749,7 +749,7 @@ try {
       overlayState = fixture();
       overlayState.measurement.coreStatus = "ACTIVE";
       overlayState.measurement.rpmMilli = 90000;
-      await overlay.goto(`${url}overlay/?hud=1&scale=1&theme=light`);
+      await overlay.goto(`${url}overlay/index.html?hud=1&scale=1&theme=light`);
       await overlay.waitForFunction(
         () => document.querySelector(".overlay-widget")?.dataset.pose === "run",
       );
@@ -799,7 +799,7 @@ try {
         [],
       );
       await overlay.goto(
-        `${url}overlay/?pos=bad&scale=NaN&hud=0&sound=bad&theme=bad`,
+        `${url}overlay/index.html?pos=bad&scale=NaN&hud=0&sound=bad&theme=bad`,
       );
       assert.equal(await overlay.locator(".overlay-hud").isVisible(), false);
       assert.equal(
@@ -902,7 +902,7 @@ try {
   });
   await live.screenshot({ path: "artifacts/screenshots/first-screen-390.png" });
   await live.setViewportSize({ width: 1920, height: 1080 });
-  await live.goto(`${url}overlay/?pos=bottom-right&scale=1.5&hud=1`);
+  await live.goto(`${url}overlay/index.html?pos=bottom-right&scale=1.5&hud=1`);
   await live
     .waitForFunction(
       () =>

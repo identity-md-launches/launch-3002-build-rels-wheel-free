@@ -4,7 +4,7 @@ This maps the brief to the implemented files and worker checks. No production re
 
 | Requirement | Delivery and evidence |
 | --- | --- |
-| Free companion, landing `/`, transparent OBS `/overlay` | `src/main.ts`, `dist/index.html`, `dist/overlay/index.html`; static subpath browser checks. Use the canonical generated `/overlay/` URL. |
+| Free companion, landing `/`, transparent OBS `/overlay/index.html` | `src/main.ts`, `dist/index.html`, `dist/overlay/index.html`; static subpath browser checks. Use the canonical generated `/overlay/index.html` URL with every query parameter. |
 | Independent-project disclaimer in footer, title and share metadata | Landing footer in `src/main.ts`; shared head in `index.html` and both exports; local 1200 × 630 share PNG also includes the disclaimer. |
 | Watch Squeektoshi live | Hero and closing links use the supplied `https://sepolia.squeekchain.com`. |
 | Public, real data only | Runtime source has one endpoint: `https://api.squeekchain.com/v1/status`. No initial sample data or demo URL options. Real API response bridge is test-only; direct browser network limitation is documented. |

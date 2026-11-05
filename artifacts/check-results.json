@@ -1,35 +1,35 @@
 {
   "date": "2026-11-05",
   "authority": "Worker-reported checks only; no independent behavioral certification.",
-  "revisionNote": "All results here are from the previous round and predate the overlay ground and fault-priority revision. No check was re-run for that revision; see validation.md.",
+  "revision": "Explicit overlay/index.html URLs; query construction and all other application behavior preserved.",
   "cleanInstall": {
     "passed": true,
-    "packagesInstalled": 19
+    "packagesInstalled": 19,
+    "location": "test/scratch/tools; manifests and root lockfile unchanged"
   },
   "typecheck": {
     "command": "npm run typecheck",
-    "passed": true
+    "passed": true,
+    "exitCode": 0
   },
   "unitTests": {
     "command": "npm test",
-    "passed": 14,
-    "failed": 0
+    "passed": 19,
+    "failed": 0,
+    "exitCode": 0
   },
   "productionBuild": {
     "command": "npm run build",
     "passed": true,
+    "exitCode": 0,
     "vite": "7.3.7",
     "staticRoutes": [
-      "/",
-      "/overlay/"
+      "/index.html",
+      "/overlay/index.html"
     ],
     "relativeAssets": true
   },
-  "dependencyAudit": {
-    "command": "npm audit --audit-level=high",
-    "reportedVulnerabilities": 0
-  },
-  "browserCommand": "npm run test:browser",
+  "browserCommand": "npm run test:browser with supported tooling and Chromium executable overrides",
   "browserChecks": [
     {
       "name": "landing loads beneath a static subpath with exact progress and distinct projected/settled heights",
@@ -102,7 +102,8 @@
     {
       "name": "Direct live API transport",
       "passed": false,
-      "limitation": "Chromium network returned net::ERR_EMPTY_RESPONSE. The public API was reachable via curl, and its unchanged real responses were rendered through a test-only bridge."
+      "detail": "Signal lost",
+      "limitation": "Browser page displayed Signal lost. Fresh real API data was rendered through a test-only curl bridge."
     },
     {
       "name": "Real API data through a test-only curl transport bridge",
@@ -111,21 +112,26 @@
     {
       "name": "WebKit mobile builder and game",
       "passed": false,
-      "limitation": "WebKit failed to launch: native shared library libwayland-server.so.0 was unavailable to its runtime. No WebKit/Safari pass is claimed."
+      "limitation": "WebKit browser executable unavailable. No Safari/WebKit pass is claimed."
     }
   ],
   "browserPassedGroups": 18,
   "environmentLimitedGroups": 2,
+  "overlayURLRegression": {
+    "urlCases": 1920,
+    "rawQueriesByteIdentical": true,
+    "gatewayLandingEntries": 4,
+    "overlayDirectoryRequests": 0,
+    "clipboardMatchesField": true,
+    "openLinkMatchesField": true,
+    "manualCopySelectsCompleteURL": true,
+    "scriptErrors": 0,
+    "localResourceFailures": 0
+  },
   "axe": {
     "landingViolations": 0,
     "lightLostSignalHUDViolations": 0,
     "screenReaderSession": false
-  },
-  "liveService": {
-    "publicGET": "HTTP 200, schemaVersion 1",
-    "corsPreflight": "HTTP 204, If-None-Match allowed and ETag/Retry-After exposed",
-    "directChromiumTransport": "failed, ERR_EMPTY_RESPONSE",
-    "screenshotTransport": "real public API responses via test-only curl bridge; no fixture values"
   },
   "overlayCases": {
     "resolutions": [
@@ -146,13 +152,20 @@
     768,
     1440
   ],
+  "taste": {
+    "passed": 15,
+    "total": 16,
+    "exception": "Existing duplicate work-left label in dashboard and live HUD preview retained to preserve the requested design."
+  },
   "notVerified": [
     "Safari/WebKit",
     "physical OBS",
     "audible sound",
     "screen-reader session",
     "browser-native 200% zoom",
+    "localized/RTL layouts",
     "hardware frame rate",
-    "direct live API transport in this sandbox browser"
+    "direct live API transport in this sandbox browser",
+    "published IPFS gateway"
   ]
 }

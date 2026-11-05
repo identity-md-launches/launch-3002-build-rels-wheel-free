@@ -24,7 +24,7 @@ npm run preview
 
 `dist/index.html`, `dist/overlay/index.html`, and every runtime asset are included with the source and lockfile. The build uses Vite + TypeScript with no runtime framework or dependencies. `scripts/export.mjs` creates the real static overlay route after Vite builds. Building does not require the API to be online.
 
-To self-host, upload the **contents of `dist/`** to any HTTP(S) static host. Preserve the `assets/` and `overlay/` directories. Relative asset URLs support a gateway subpath as well as a domain root. No server rewrites, backend, service worker, trackers, external fonts, or remote artwork are required. Visit the hosted landing page to generate an overlay URL for that host and path; use the generated `/overlay/` URL, including its trailing slash. Serve through HTTP(S), rather than opening the HTML as a `file:` URL.
+To self-host, upload the **contents of `dist/`** to any HTTP(S) static host. Preserve the `assets/` and `overlay/` directories. Relative asset URLs support a gateway subpath as well as a domain root. No server rewrites, backend, service worker, trackers, external fonts, or remote artwork are required. Visit the hosted landing page to generate an overlay URL for that host and path; use the generated `/overlay/index.html` URL with all query parameters intact. The explicit filename avoids IPFS gateways showing a directory listing. Serve through HTTP(S), rather than opening the HTML as a `file:` URL.
 
 ## Screenshots
 
@@ -41,9 +41,9 @@ The overlay image has an alpha background. Its empty area is deliberately transp
 ## Add Rels to OBS
 
 1. Open the landing page’s **Overlay builder**. Choose a corner, character size, HUD theme, HUD visibility, sound, and optional streamer name. The sample stream is labeled as a preview; its Rels scene uses the same real signal as the hero and game.
-2. Select **Copy OBS URL**. If clipboard permission is unavailable, the complete URL is selected for manual copying.
+2. Select **Copy OBS URL** to copy the `/overlay/index.html` URL, keeping every query parameter. If clipboard permission is unavailable, the complete URL is selected for manual copying.
 3. In OBS, go to **Sources → + → Browser** and create a Browser Source.
-4. Paste the copied URL. Set **Width 1920 / Height 1080**, or **1280 / 720** for a 720p scene. The overlay background is already transparent.
+4. Paste the copied `/overlay/index.html` URL with all its query parameters. Set **Width 1920 / Height 1080**, or **1280 / 720** for a 720p scene. The overlay background is already transparent.
 5. Leave “Shutdown source when not visible” off to preserve the session. Sound is off by default. With sound enabled, allow Browser Source autoplay if your OBS/browser policy blocks it. Ordinary browsers may require a gesture before Web Audio can play; the animation works without audio.
 
 ### Overlay URL options
@@ -106,8 +106,10 @@ npm run test:browser
 
 The browser script serves the actual `dist/` beneath `/preview/` in one bounded foreground process. Its deterministic fixtures live only in the test script, to exercise running, sleeping, faults, availability, block bursts, game outcomes, retries, and conditional requests. It also tries the real API separately. The optional `RELS_TEST_TOOLS`, `RELS_CHROMIUM`, and `RELS_WEBKIT` test arguments are environment variables for isolated test tooling; the application reads no environment configuration.
 
-Worker results on 2026-11-05: production build and typecheck passed; **14 unit tests passed**; **18 browser-check groups passed**, including the real-response bridge, with the two environment limitations below; WCAG-tagged axe checks passed. The pinned taste probe passed **15 of 16** checks. Its single repetition flag is the required “work left to next block” label appearing in both the live dashboard and the builder’s live HUD preview. WebKit could not launch with this host’s available native libraries; Safari, physical OBS, hardware frame rate, screen-reader sessions, and browser-native 200% zoom remain unverified. Direct API transport in the sandbox browser failed, while actual API GET and CORS preflight succeeded via curl. These are worker-reported checks, not independent certification.
+Worker results for this overlay-URL revision on 2026-11-05: production build and typecheck passed; **19 unit tests passed**; **18 Chromium browser-check groups passed**, including the real-response bridge. The builder, clipboard, game, animation states, responsive layouts, reduced motion, accessibility scan, and 16 overlay resolution/corner/scale combinations passed. A separate gateway regression checked four landing entrypoints, the copy button, manual-copy fallback, and “Open overlay”: every URL opened `overlay/index.html`, with zero overlay-directory requests. Another **1,920 URL cases** retained byte-identical query strings.
 
-**Those results predate the latest revision and were not repeated for it.** The revision adds the overlay’s ground layers and makes stale/lost outrank a counter fault. No shell or browser could start in that session, so the build, typecheck, unit tests, browser checks, and taste probe did not run, and the new `tests/scene.test.ts` and updated `tests/browser.mjs` steps have never been executed. The same changes were applied to `dist/assets/` by hand rather than by `npm run build`, so the asset filenames no longer reflect their content hashes. Run the commands above to confirm the revision and regenerate the export. See [validation](artifacts/validation.md).
+The pinned taste probe passed **15 of 16** checks. Its existing repetition flag is “work left to next block” in both the dashboard and builder HUD; the requested design is preserved. The first 390px screen shows the product and main action. The supplied browser launcher could not find Chrome; checks ran with the installed Chromium headless shell. WebKit was unavailable. Direct live API access in Chromium displayed Signal lost; a test-only curl bridge successfully rendered fresh real API responses. Safari, physical OBS, audible playback, screen-reader sessions, native 200% zoom, and hardware frame rate remain unverified. These are worker-reported results.
+
+`dist/` was rebuilt from source with the existing configuration and lockfile. Earlier manual-patch notes in the validation document are historical; the current revision’s results take precedence. Existing documentation screenshots are preserved and retain the limitations stated above.
 
 See [full validation](artifacts/validation.md) for coverage and fixes, and [DESIGN.md](DESIGN.md) for implemented tokens and components. Design guidance attribution is retained in [third-party notices](artifacts/THIRD_PARTY_NOTICES.txt).

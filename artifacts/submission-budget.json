@@ -1,10 +1,9 @@
 {
   "date": "2026-11-05",
-  "scope": "Added/modified submission files, excluding ignored generated tooling and provided inputs; byte total includes this report.",
-  "revisionNote": "Measured in the previous round. Files changed by the later revision, including the two dist/assets files, no longer match these sizes and hashes; tests/scene.test.ts is not listed. The revision adds only a few kilobytes of text.",
+  "scope": "Complete delivered project files; excludes supplied inputs and ignored disposable tooling. Includes this report.",
   "limitBytes": 8388608,
-  "totalBytes": 836735,
-  "remainingBytes": 7551873,
+  "totalBytes": 860085,
+  "remainingBytes": 7528523,
   "pathBudgetsBytes": {
     "dist": 524288,
     "artifacts": 4194304,
@@ -15,36 +14,26 @@
     "root files": 524288
   },
   "actualBytesByGroup": {
-    "dist": 147022,
-    "artifacts": 417556,
-    "src": 97342,
+    "dist": 147728,
+    "artifacts": 429988,
+    "src": 98655,
     "public": 70925,
-    "tests": 40939,
+    "tests": 47632,
     "scripts": 468,
-    "root files": 62483
+    "root files": 64689
   },
   "generatedPathsBudgetBytes": 0,
-  "generatedPatterns": [
-    "**/node_modules/",
-    "**/.cache/",
-    "**/.vite/",
-    "**/.npm/",
-    "**/coverage/",
-    "**/test-results/",
-    "**/playwright-report/",
-    "test/scratch/"
-  ],
-  "exportBytes": 147022,
+  "exportBytes": 147728,
   "export": [
     {
-      "path": "dist/assets/index-BwGlzLfu.js",
-      "bytes": 43516,
-      "sha256": "d1830117e2186894ec88a8477c60e6087f99da95153ec4e70d5e73fb6c142b55"
+      "path": "dist/assets/index-SSKwZSkL.js",
+      "bytes": 44103,
+      "sha256": "a64f69fb87aea2f2201e0e72ddaac0ca93c399ac35f4525a0cdf8c8ca365d5aa"
     },
     {
-      "path": "dist/assets/index-M7PaKuyV.css",
-      "bytes": 28752,
-      "sha256": "75ea76d275d0a00ba0da486993b81d825efceac681b6ccd620eabdc28d7da39b"
+      "path": "dist/assets/index-mycq7JCE.css",
+      "bytes": 28871,
+      "sha256": "dfb612f61931b072acedfce94414836fd69f1a4571b713fe9eaacc28ded2bb5a"
     },
     {
       "path": "dist/favicon.svg",
@@ -54,12 +43,12 @@
     {
       "path": "dist/index.html",
       "bytes": 1912,
-      "sha256": "2a469775ba5a9543fd3808c51d633f84d429520713623ef4072932a715f4a4e5"
+      "sha256": "f9ffd3d457853d93b4ce11bd47e2ed3329dcddef7d04c89a18a367c997de45da"
     },
     {
       "path": "dist/overlay/index.html",
       "bytes": 1917,
-      "sha256": "39444e22a10e93b9d0581cc15f70af71e7c18a6e3b104c3a96067e50e07f0efa"
+      "sha256": "34f360c7ba70ca61d55fb08f81dbc3da5a25ad9a865157f986526c28740c18b0"
     },
     {
       "path": "dist/share.png",
@@ -79,11 +68,11 @@
     },
     {
       "path": "DESIGN.md",
-      "bytes": 10426
+      "bytes": 11469
     },
     {
       "path": "README.md",
-      "bytes": 9995
+      "bytes": 11158
     },
     {
       "path": "artifacts/THIRD_PARTY_NOTICES.txt",
@@ -91,11 +80,11 @@
     },
     {
       "path": "artifacts/check-results.json",
-      "bytes": 4464
+      "bytes": 4839
     },
     {
       "path": "artifacts/requirements.md",
-      "bytes": 5894
+      "bytes": 6232
     },
     {
       "path": "artifacts/screenshots/first-screen-390.png",
@@ -115,23 +104,23 @@
     },
     {
       "path": "artifacts/submission-budget.json",
-      "bytes": 4935
+      "bytes": 4975
     },
     {
       "path": "artifacts/taste-checks.json",
-      "bytes": 3825
+      "bytes": 3917
     },
     {
       "path": "artifacts/validation.md",
-      "bytes": 15853
+      "bytes": 27440
     },
     {
-      "path": "dist/assets/index-BwGlzLfu.js",
-      "bytes": 43516
+      "path": "dist/assets/index-SSKwZSkL.js",
+      "bytes": 44103
     },
     {
-      "path": "dist/assets/index-M7PaKuyV.css",
-      "bytes": 28752
+      "path": "dist/assets/index-mycq7JCE.css",
+      "bytes": 28871
     },
     {
       "path": "dist/favicon.svg",
@@ -191,19 +180,19 @@
     },
     {
       "path": "src/main.ts",
-      "bytes": 26442
+      "bytes": 26463
     },
     {
       "path": "src/options.ts",
-      "bytes": 1505
+      "bytes": 1515
     },
     {
       "path": "src/scene.ts",
-      "bytes": 21120
+      "bytes": 22170
     },
     {
       "path": "src/style.css",
-      "bytes": 36654
+      "bytes": 36886
     },
     {
       "path": "tests/api.test.ts",
@@ -211,11 +200,15 @@
     },
     {
       "path": "tests/browser.mjs",
-      "bytes": 31376
+      "bytes": 33348
     },
     {
       "path": "tests/game.test.ts",
-      "bytes": 3261
+      "bytes": 3271
+    },
+    {
+      "path": "tests/scene.test.ts",
+      "bytes": 4711
     },
     {
       "path": "tsconfig.json",
@@ -229,8 +222,11 @@
   "checks": {
     "relativeAssetsResolve": true,
     "bothStaticEntrypoints": true,
-    "metadataAndPNGDimensions": true,
-    "noTestFixturesInExport": true,
+    "metadataAndShareAssets": true,
+    "onlyAssignedSourceAndTestURLChanges": true,
+    "originalDesignDataAnimationAndGameSourceUnchanged": true,
+    "buildConfigurationAndDependenciesUnchanged": true,
+    "documentationScreenshotsPreserved": true,
     "noGeneratedDependenciesOrArchivesInSubmission": true,
     "noSubmodule": true
   }
