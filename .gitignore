@@ -1,0 +1,14 @@
+# Documentation artifact budget: 4 MiB total, including real screenshots and validation records.
+!/artifacts/
+!/artifacts/**
+# Explicit submission path budget: 0 bytes for each generated path below, at every nesting level.
+# dist/ has a reserved budget of 512 KiB and is deliberately included in the submission.
+**/node_modules/
+**/.cache/
+**/.vite/
+**/.npm/
+**/coverage/
+**/test-results/
+**/playwright-report/
+# This assignment removes test/scratch/ before submission; none of it is a runtime dependency.
+/test/scratch/

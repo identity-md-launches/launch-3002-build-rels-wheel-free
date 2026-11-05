@@ -1,0 +1,157 @@
+{
+  "date": "2026-11-05",
+  "authority": "Worker-reported checks only; no independent behavioral certification.",
+  "cleanInstall": {
+    "passed": true,
+    "packagesInstalled": 19
+  },
+  "typecheck": {
+    "command": "npm run typecheck",
+    "passed": true
+  },
+  "unitTests": {
+    "command": "npm test",
+    "passed": 14,
+    "failed": 0
+  },
+  "productionBuild": {
+    "command": "npm run build",
+    "passed": true,
+    "vite": "7.3.7",
+    "staticRoutes": [
+      "/",
+      "/overlay/"
+    ],
+    "relativeAssets": true
+  },
+  "dependencyAudit": {
+    "command": "npm audit --audit-level=high",
+    "reportedVulnerabilities": 0
+  },
+  "browserCommand": "npm run test:browser",
+  "browserChecks": [
+    {
+      "name": "landing loads beneath a static subpath with exact progress and distinct projected/settled heights",
+      "passed": true
+    },
+    {
+      "name": "one shared poller supplies both scenes; conditional requests repeat at 3 seconds",
+      "passed": true
+    },
+    {
+      "name": "visibility changes suspend the poller and animation, then resume cleanly",
+      "passed": true
+    },
+    {
+      "name": "the builder completes by keyboard with a visible focus indicator",
+      "passed": true
+    },
+    {
+      "name": "every builder option changes the real URL and preview; clipboard copies it",
+      "passed": true
+    },
+    {
+      "name": "cheer bows locally and pause freezes articulated motion",
+      "passed": true
+    },
+    {
+      "name": "idle beyond twenty seconds sits and sleeps; active session gets a real articulated run",
+      "passed": true
+    },
+    {
+      "name": "guess validation, a single locked guess, new block win and persistent streak",
+      "passed": true
+    },
+    {
+      "name": "loss resets current streak, retains best, and produces the lose pose after slash",
+      "passed": true
+    },
+    {
+      "name": "stale, unavailable, fault and recovery retain good values and use distinct states",
+      "passed": true
+    },
+    {
+      "name": "progress width matches its value and an already-settled projection is labeled correctly",
+      "passed": true
+    },
+    {
+      "name": "429 honors Retry-After plus backoff; no preview creates extra requests",
+      "passed": true
+    },
+    {
+      "name": "three-block celebration cap and plain-text streamer banner",
+      "passed": true
+    },
+    {
+      "name": "open guesses reset on reload while best streak persists",
+      "passed": true
+    },
+    {
+      "name": "mobile first screen, reflow at 320/390/768/1440, keyboard focus, reduced motion, axe",
+      "passed": true
+    },
+    {
+      "name": "standalone overlay is transparent at 1080p/720p; all positions and scale endpoints fit",
+      "passed": true
+    },
+    {
+      "name": "Chromium console and local resources",
+      "passed": true
+    },
+    {
+      "name": "Direct live API transport",
+      "passed": false,
+      "limitation": "Chromium network returned net::ERR_EMPTY_RESPONSE. The public API was reachable via curl, and its unchanged real responses were rendered through a test-only bridge."
+    },
+    {
+      "name": "Real API data through a test-only curl transport bridge",
+      "passed": true
+    },
+    {
+      "name": "WebKit mobile builder and game",
+      "passed": false,
+      "limitation": "WebKit failed to launch: native shared library libwayland-server.so.0 was unavailable to its runtime. No WebKit/Safari pass is claimed."
+    }
+  ],
+  "browserPassedGroups": 18,
+  "environmentLimitedGroups": 2,
+  "axe": {
+    "landingViolations": 0,
+    "lightLostSignalHUDViolations": 0,
+    "screenReaderSession": false
+  },
+  "liveService": {
+    "publicGET": "HTTP 200, schemaVersion 1",
+    "corsPreflight": "HTTP 204, If-None-Match allowed and ETag/Retry-After exposed",
+    "directChromiumTransport": "failed, ERR_EMPTY_RESPONSE",
+    "screenshotTransport": "real public API responses via test-only curl bridge; no fixture values"
+  },
+  "overlayCases": {
+    "resolutions": [
+      "1920x1080",
+      "1280x720"
+    ],
+    "corners": 4,
+    "scaleEndpoints": [
+      0.5,
+      2
+    ],
+    "combinations": 16,
+    "widgetAndBannerBounds": "passed"
+  },
+  "renderedLandingWidths": [
+    320,
+    390,
+    768,
+    1440
+  ],
+  "notVerified": [
+    "Safari/WebKit",
+    "physical OBS",
+    "audible sound",
+    "screen-reader session",
+    "browser-native 200% zoom",
+    "hardware frame rate",
+    "direct live API transport in this sandbox browser"
+  ]
+}

@@ -1,0 +1,236 @@
+{
+  "date": "2026-11-05",
+  "scope": "Added/modified submission files, excluding ignored generated tooling and provided inputs; byte total includes this report.",
+  "limitBytes": 8388608,
+  "totalBytes": 836735,
+  "remainingBytes": 7551873,
+  "pathBudgetsBytes": {
+    "dist": 524288,
+    "artifacts": 4194304,
+    "src": 1048576,
+    "public": 262144,
+    "tests": 524288,
+    "scripts": 65536,
+    "root files": 524288
+  },
+  "actualBytesByGroup": {
+    "dist": 147022,
+    "artifacts": 417556,
+    "src": 97342,
+    "public": 70925,
+    "tests": 40939,
+    "scripts": 468,
+    "root files": 62483
+  },
+  "generatedPathsBudgetBytes": 0,
+  "generatedPatterns": [
+    "**/node_modules/",
+    "**/.cache/",
+    "**/.vite/",
+    "**/.npm/",
+    "**/coverage/",
+    "**/test-results/",
+    "**/playwright-report/",
+    "test/scratch/"
+  ],
+  "exportBytes": 147022,
+  "export": [
+    {
+      "path": "dist/assets/index-BwGlzLfu.js",
+      "bytes": 43516,
+      "sha256": "d1830117e2186894ec88a8477c60e6087f99da95153ec4e70d5e73fb6c142b55"
+    },
+    {
+      "path": "dist/assets/index-M7PaKuyV.css",
+      "bytes": 28752,
+      "sha256": "75ea76d275d0a00ba0da486993b81d825efceac681b6ccd620eabdc28d7da39b"
+    },
+    {
+      "path": "dist/favicon.svg",
+      "bytes": 425,
+      "sha256": "5531bb3de315bcac63eeeefcbddb5cc035dab55e869090c65b433fe794772592"
+    },
+    {
+      "path": "dist/index.html",
+      "bytes": 1912,
+      "sha256": "2a469775ba5a9543fd3808c51d633f84d429520713623ef4072932a715f4a4e5"
+    },
+    {
+      "path": "dist/overlay/index.html",
+      "bytes": 1917,
+      "sha256": "39444e22a10e93b9d0581cc15f70af71e7c18a6e3b104c3a96067e50e07f0efa"
+    },
+    {
+      "path": "dist/share.png",
+      "bytes": 69031,
+      "sha256": "3808172679a7b97d3b4d30aa344092832502e7dbc9c87e8303ae285fb4825280"
+    },
+    {
+      "path": "dist/share.svg",
+      "bytes": 1469,
+      "sha256": "ea668ed9558db7fb7c9f6f657220b070591901f91c227a2cc5ff4d8d441048b1"
+    }
+  ],
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 521
+    },
+    {
+      "path": "DESIGN.md",
+      "bytes": 10426
+    },
+    {
+      "path": "README.md",
+      "bytes": 9995
+    },
+    {
+      "path": "artifacts/THIRD_PARTY_NOTICES.txt",
+      "bytes": 11964
+    },
+    {
+      "path": "artifacts/check-results.json",
+      "bytes": 4464
+    },
+    {
+      "path": "artifacts/requirements.md",
+      "bytes": 5894
+    },
+    {
+      "path": "artifacts/screenshots/first-screen-390.png",
+      "bytes": 73899
+    },
+    {
+      "path": "artifacts/screenshots/landing-desktop.png",
+      "bytes": 155898
+    },
+    {
+      "path": "artifacts/screenshots/landing-mobile.png",
+      "bytes": 73881
+    },
+    {
+      "path": "artifacts/screenshots/overlay-1080.png",
+      "bytes": 66943
+    },
+    {
+      "path": "artifacts/submission-budget.json",
+      "bytes": 4935
+    },
+    {
+      "path": "artifacts/taste-checks.json",
+      "bytes": 3825
+    },
+    {
+      "path": "artifacts/validation.md",
+      "bytes": 15853
+    },
+    {
+      "path": "dist/assets/index-BwGlzLfu.js",
+      "bytes": 43516
+    },
+    {
+      "path": "dist/assets/index-M7PaKuyV.css",
+      "bytes": 28752
+    },
+    {
+      "path": "dist/favicon.svg",
+      "bytes": 425
+    },
+    {
+      "path": "dist/index.html",
+      "bytes": 1912
+    },
+    {
+      "path": "dist/overlay/index.html",
+      "bytes": 1917
+    },
+    {
+      "path": "dist/share.png",
+      "bytes": 69031
+    },
+    {
+      "path": "dist/share.svg",
+      "bytes": 1469
+    },
+    {
+      "path": "index.html",
+      "bytes": 1811
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 38684
+    },
+    {
+      "path": "package.json",
+      "bytes": 582
+    },
+    {
+      "path": "public/favicon.svg",
+      "bytes": 425
+    },
+    {
+      "path": "public/share.png",
+      "bytes": 69031
+    },
+    {
+      "path": "public/share.svg",
+      "bytes": 1469
+    },
+    {
+      "path": "scripts/export.mjs",
+      "bytes": 468
+    },
+    {
+      "path": "src/api.ts",
+      "bytes": 9552
+    },
+    {
+      "path": "src/game.ts",
+      "bytes": 2069
+    },
+    {
+      "path": "src/main.ts",
+      "bytes": 26442
+    },
+    {
+      "path": "src/options.ts",
+      "bytes": 1505
+    },
+    {
+      "path": "src/scene.ts",
+      "bytes": 21120
+    },
+    {
+      "path": "src/style.css",
+      "bytes": 36654
+    },
+    {
+      "path": "tests/api.test.ts",
+      "bytes": 6302
+    },
+    {
+      "path": "tests/browser.mjs",
+      "bytes": 31376
+    },
+    {
+      "path": "tests/game.test.ts",
+      "bytes": 3261
+    },
+    {
+      "path": "tsconfig.json",
+      "bytes": 381
+    },
+    {
+      "path": "vite.config.mjs",
+      "bytes": 83
+    }
+  ],
+  "checks": {
+    "relativeAssetsResolve": true,
+    "bothStaticEntrypoints": true,
+    "metadataAndPNGDimensions": true,
+    "noTestFixturesInExport": true,
+    "noGeneratedDependenciesOrArchivesInSubmission": true,
+    "noSubmodule": true
+  }
+}
